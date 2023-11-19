@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>myFlix API Documentation</title>
+</head>
+<body>
+    <h1>Welcome to the myFlix API</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Request</th>
+                <th>URL</th>
+                <th>HTTP Method</th>
+                <th>Request Body Data Format in JSON</th>
+                <th>Response Data Format in JSON</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Get a list of all movies with details.</td>
+                <td>/movies</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON array containing movie data. Example:
+                    <code>
+                        [
+                            {
+                                "Title": "The Shawshank Redemption",
+                                "Description": "Two imprisoned men bond over several years...",
+                                "Genre": "Drama",
+                                "Director": "Frank Darabont",
+                                "ImageURL": "https://example.com/shawshank_redemption.jpg",
+                                "Featured": false
+                            },
+                            // ... (other movie objects)
+                        ]
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Get data about a movie by title.</td>
+                <td>/movies/:title</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object holding data about a single movie. Example:
+                    <code>
+                        {
+
+                            Title: 'Pulp Fiction',
+                            Description: "A nonlinear narrative weaves together the lives of various characters, including hitmen, a boxer, and a gangster's wife, in this iconic Quentin Tarantino film.",
+                            Genre:'Drama',
+                            Description: 'A Quentin Tarantino crime drama with a unique narrative style.'
+                            Director:'Quentin Tarantino',
+                            ImageURL: 'https://example.com/pulp_fiction.jpg',
+                            Featured: false
+                        
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Get data about a genre by genre's name</td>
+                <td>/movies/genre/:genreName</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object holding data about a genre. Example:
+                    <code>
+                        {
+                            "Name": "War",
+                            "Description": "A gripping war film that delves into the horrors of the Vietnam War."
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Get data about a Director by director's name</td>
+                <td>/movies/directors/:directorName</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object holding data about a director. Example:
+                    <code>
+                        {
+
+                             
+                             Director: 'Stanley Kubrick',
+                             Bio: 'Stanley Kubrick was a visionary filmmaker with a unique cinematic style.',
+                             Birth: 1928
+                             ImageURL: 'https://example.com/full_metal_jacket.jpg',
+                             Featured: false
+
+
+                        
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Add a new user</td>
+                <td>/users</td>
+                <td>POST</td>
+                <td>A JSON object holding user data. Example:
+                    <code>
+                        {
+                            " Username: 'updated',
+                            Password: 'anez123',
+                            Email: 'anezbjork@gmail.com',
+                            Birthday: "2000-07-10"
+                        }
+                    </code>
+                </td>
+                <td>A JSON object holding user data, including a new ID. Example:
+                    <code>
+                        {
+
+
+                            "Username": "darabjork",
+                            "Password": "darin123",
+                            "Email": "daraupdated@gmail.com",
+                            "Birthday": "1997-09-05",
+                            "ID": "3f4b1136-c60f-40de-9ca8-77de8021c92c"
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Update user Info</td>
+                <td>/users/:Username</td>
+                <td>PUT</td>
+                <td>A JSON object holding the updated user data. Example:
+                    <code>
+                        {
+                            "Username": "darabjork",
+                            "Password": "newpassword",
+                            "Email": "newemail@gmail.com",
+                            "Birthday": "1997-09-05"
+                        }
+                    </code>
+                </td>
+                <td>A JSON object holding the updated user data. Example:
+                    <code>
+                        {
+                            "Username": "darabjork",
+                            "Password": "newpassword",
+                            "Email": "newemail@gmail.com",
+                            "Birthday": "1997-09-05"
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Add a movie to a user's list of favorites:</td>
+                <td>/users/:Username/movies/:MovieID</td>
+                <td>POST</td>
+                <td>None</td>
+                <td>A JSON object holding user data with the added movie to their favorites. Example:
+                    <code>
+                        {
+                            "Username": "darabjork",
+                            "Password": "newpassword",
+                            "Email": "newemail@gmail.com",
+                            "Birthday": "1997-09-05",
+                            "FavoriteMovies": ["Twilight"]
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Remove a movie from a user's list of favorites</td>
+                <td>/users/:Username/movies/:MovieID</td>
+                <td>DELETE</td>
+                <td>None</td>
+                <td>A JSON object holding user data with the removed movie from their favorites. Example:
+                    <code>
+                        {
+                            "Username": "darabjork",
+                            "Password": "newpassword",
+                            "Email": "newemail@gmail.com",
+                            "Birthday": "1997-09-05",
+                            "FavoriteMovies": []
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Delete user registration</td>
+                <td>/users/:Username</td>
+                <td>DELETE</td>
+                <td>A text indicating that the user has been removed from the system.</td>
+                <td>A JSON object confirming the user deletion. Example:
+                    <code>
+                        {
+                            "message": "User darabjork has been deleted."
+                        }
+                    </code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+<script type="module" src="server.js"></script>
+</body>
+</html>
+
