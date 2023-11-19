@@ -36,7 +36,6 @@ const { check, validationResult } = require('express-validator');
 
 
 
-
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
