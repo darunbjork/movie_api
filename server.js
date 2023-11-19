@@ -20,6 +20,11 @@ const Movies = Models.Movie;
 const Schema = mongoose.Schema;
 
 
+require('dotenv').config();
+
+
+
+
 const directorSchema = new Schema({
   Name: String,       
   bio: String,        
@@ -35,7 +40,7 @@ const Director = mongoose.model('Director', directorSchema);
 const { check, validationResult } = require('express-validator');
 
 
-
+/*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
@@ -43,10 +48,22 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
   });
+*/
+
+/*mongoose.connect('mongodb+srv://darunbjork:Esspreso20@myflixdb.cvyoejv.mongodb.net/myFlixDB?retryWrites=true&w=majority');*/
 
 
-  /*mongoose.connect('mongodb+srv://darunbjork:Esspreso20@myflixdb.cvyoejv.mongodb.net/myFlixDB?retryWrites=true&w=majority');*/
-
+mongoose.connect(process.env.CONNECTION_URI)
+  .then(() => {
+    console.log('Connected to database');
+    const port = process.env.PORT || 8080;
+    app.listen(port, '0.0.0.0', () => {
+      console.log('Listening on Port ' + port);
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to database:', error);
+  });
 
 
 
@@ -369,11 +386,12 @@ app.use((err, req, res, next) => {
 
 
 
+const port = process.env.PORT || 3000;
 
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
 });
+
 
 
  
