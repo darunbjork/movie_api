@@ -25,6 +25,7 @@ require('dotenv').config();
 
 
 
+
 const directorSchema = new Schema({
   Name: String,       
   bio: String,        
@@ -49,20 +50,21 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
     console.error('Error connecting to MongoDB:', error); 
   });
 */
-
-
-mongoose.connect(process.env.CONNECTION_URI)
-  .then(() => {
-    console.log('Connected to database');
-    const port = process.env.PORT || 3000;
-    app.listen(port, '0.0.0.0', () => {
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // Other options can be added here if needed
+})
+.then(() => {
+  console.log('Connected to the database');
+  const port = process.env.PORT || 8080;
+  app.listen(port, '0.0.0.0', () => {
       console.log('Listening on Port ' + port);
-    });
-  })
-  .catch((error) => {
-    console.error('Error connecting to database:', error);
   });
-
+})
+.catch((error) => {
+  console.error('Error connecting to the database:', error);
+});
 
 
 
