@@ -65,6 +65,11 @@ mongoose.connect(process.env.CONNECTION_URI)
 
 
 
+
+
+
+
+
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 
 app.use(morgan('common', { stream: accessLogStream }));
