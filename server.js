@@ -50,10 +50,11 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   });
 */
 
+
 mongoose.connect(process.env.CONNECTION_URI)
   .then(() => {
     console.log('Connected to database');
-    const port = process.env.PORT || 8080;
+    const port = process.env.PORT || 3000;
     app.listen(port, '0.0.0.0', () => {
       console.log('Listening on Port ' + port);
     });
@@ -61,7 +62,6 @@ mongoose.connect(process.env.CONNECTION_URI)
   .catch((error) => {
     console.error('Error connecting to database:', error);
   });
-
 
 
 
@@ -383,11 +383,9 @@ app.use((err, req, res, next) => {
 });
 
 
-/*
-const port = process.env.PORT || 3000;
+
+const port = process.env.PORT || 8080;
 
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
-
-*/
