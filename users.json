@@ -1,0 +1,5 @@
+{"_id":{"$oid":"65496b81ee42048136bd2053"},"Username":"avarbjork","Password":"avar123","Email":"avarbjork@gmail.com","Birthday":{"$date":{"$numberLong":"1021420800000"}},"FavoriteMovies":["6549b7174e957e6318a6f6cf"]}
+{"_id":{"$oid":"65496b81ee42048136bd2055"},"Username":"updated","Password":"anez123","Email":"anezbjork@gmail.com","Birthday":{"$date":{"$numberLong":"963187200000"}},"FavoriteMovies":[]}
+{"_id":{"$oid":"65496b81ee42048136bd2056"},"Username":"hedvigbjork","Password":"hedvig123","Email":"hedvigbjork@gmail.com","Birthday":{"$date":{"$numberLong":"1114387200000"}},"FavoriteMovies":[]}
+{"_id":{"$oid":"65496b81ee42048136bd2057"},"Username":"darinbjork","Password":"darin123","Email":"daraupdated@gmail.com","Birthday":{"$date":{"$numberLong":"873417600000"}},"FavoriteMovies":[]}
+{"_id":{"$oid":"654ab5f8911e0da0ad9e2db2"},"Username":"darabjork","Password":"darin123","Email":"daraupdated@gmail.com","Birthday":{"$date":{"$numberLong":"873417600000"}},"FavoriteMovies":[],"__v":{"$numberInt":"0"}}

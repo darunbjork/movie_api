@@ -51,23 +51,6 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   });
 */
 
-/*
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('Connected to the database');
-  const port = process.env.PORT || 8080;
-  app.listen(port, '0.0.0.0', () => {
-      console.log('Listening on Port ' + port);
-  });
-})
-.catch((error) => {
-  console.error('Error connecting to the database:', error);
-});
-
-*/
 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -97,6 +80,8 @@ app.use((err, req, res, next) => {
 
 
 
+
+
 app.get('/', (req, res) => {
   
   res.send('Welcome to my myFlix web application.');
@@ -119,7 +104,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), async (req, re
 
 
 
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies',  async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
