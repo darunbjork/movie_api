@@ -41,7 +41,7 @@ const Director = mongoose.model('Director', directorSchema);
 const { check, validationResult } = require('express-validator');
 
 
-
+/*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
@@ -49,12 +49,10 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
   }); 
+*/
 
-
-/*
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-*/
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
