@@ -41,21 +41,20 @@ const Director = mongoose.model('Director', directorSchema);
 const { check, validationResult } = require('express-validator');
 
 
-/*
+
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
-  });
-*/
+  }); 
 
 
+/*
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
+*/
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -112,31 +111,6 @@ app.get('/movies',  async (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send('Error: ' + error);
-    });
-});
-
-
-
-
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.Username !== req.params.Username) {
-    return res.status(400).send('Permission denied');
-  }
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $set: {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
-    { new: true }) 
-    .then((updatedUser) => {
-      res.json(updatedUser);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send('Error: ' + err);
     });
 });
 
@@ -301,7 +275,7 @@ app.post('/users/:Username', passport.authenticate('jwt', { session: false }), a
 
 app.post('/users',
   [
-    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username must be at least 5 characters long').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -342,6 +316,35 @@ app.post('/users',
   });
 
 
+
+
+/*
+
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
+  }
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+    $set: {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+    { new: true }) 
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+
+
+
   app.put('/users/:Username', 
   [
     check('Username', 'Username is required').isLength({min: 5}),
@@ -376,6 +379,42 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+*/
+
+
+app.put('/users/:Username',
+  [
+    check('Username', 'Username must be at least 5 characters long').isLength({ min: 5 }),
+    check('Username', 'Username contains invalid characters. Only letters, numbers, hyphens, and underscores are allowed.').matches(/^[a-zA-Z0-9-_]+$/),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], passport.authenticate('jwt', { session: false }), async (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send('Permission denied');
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    await Users.findOneAndUpdate({ Username: req.params.Username }, {
+      $set: {
+        Username: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    }, { new: true })
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
 
 
 
