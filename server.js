@@ -41,18 +41,18 @@ const Director = mongoose.model('Director', directorSchema);
 const { check, validationResult } = require('express-validator');
 
 
-
+/*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
-  }); 
+  }); */
 
-/*
+
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-*/
+
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -80,8 +80,7 @@ app.use((err, req, res, next) => {
 
 
 app.get('/', (req, res) => {
-  
-  res.send('Welcome to my myFlix web application.');
+  res.send('Welcome to myFlix web application.');
 });
 
 
