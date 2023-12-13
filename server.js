@@ -78,7 +78,6 @@ app.use((err, req, res, next) => {
 
 
 
-
 app.get('/', (req, res) => {
   res.send('Welcome to myFlix web application.');
 });
@@ -98,9 +97,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), async (req, re
 
 
 
-
-
-app.get('/movies',  async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}),  async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
