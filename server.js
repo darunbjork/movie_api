@@ -40,7 +40,6 @@ const Director = mongoose.model('Director', directorSchema);
 
 const { check, validationResult } = require('express-validator');
 
-
 /*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
@@ -48,8 +47,8 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
-  }); */
-
+  }); 
+  */
 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -76,7 +75,23 @@ app.use((err, req, res, next) => {
 });
 
 
-
+app.post('/login', async (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        message: 'Authentication failed',
+        user: user
+      });
+    }
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+      const token = jwt.sign(user.toJSON(), process.env.SECRET_KEY, { expiresIn: '1d' });
+      return res.json({ user: user, token: token });
+    });
+  })(req, res, next);
+});
 
 
 app.get('/', (req, res) => {
@@ -85,7 +100,7 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/users', passport.authenticate('jwt', {session: false}), async (req, res) => {
+app.get('/users',passport.authenticate('jwt', { session: false }),  async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
