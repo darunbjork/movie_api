@@ -23,9 +23,6 @@ const Schema = mongoose.Schema;
 require('dotenv').config();
 
 
-
-
-
 const directorSchema = new Schema({
   Name: String,       
   bio: String,        
@@ -40,7 +37,7 @@ const Director = mongoose.model('Director', directorSchema);
 
 const { check, validationResult } = require('express-validator');
 
-/*
+
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
@@ -49,9 +46,9 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
     console.error('Error connecting to MongoDB:', error); 
   });  
   
- */
+ /*
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
+*/
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -73,6 +70,28 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
+
+
+// Define the allowed origins
+const allowedOrigins = [
+  'http://localhost:1234', // Frontend running on localhost:1234
+  'https://flixster-movies-7537569b59ac.herokuapp.com' // Your hosted frontend URL
+];
+
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 
 
@@ -311,35 +330,6 @@ app.post('/users',
   });
 
 
-
-
-/*
-
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.Username !== req.params.Username) {
-    return res.status(400).send('Permission denied');
-  }
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $set: {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
-    { new: true }) 
-    .then((updatedUser) => {
-      res.json(updatedUser);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
-
-
-
   app.put('/users/:Username', 
   [
     check('Username', 'Username is required').isLength({min: 5}),
@@ -374,7 +364,6 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-*/
 
 
 app.put('/users/:Username',
