@@ -64,7 +64,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json()); 
 
-
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
@@ -111,7 +110,6 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
       res.status(500).send('Error: ' + err);
     });
 });
-
 
 
 
