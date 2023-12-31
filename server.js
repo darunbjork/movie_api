@@ -37,18 +37,17 @@ const Director = mongoose.model('Director', directorSchema);
 
 const { check, validationResult } = require('express-validator');
 
-
+/*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
     console.log('Connected to MongoDB'); 
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
-  });  
+  });  */
   
- /*
+ 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-*/
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -75,7 +74,7 @@ app.use((err, req, res, next) => {
 
 // Define the allowed origins
 const allowedOrigins = [
-  'http://localhost:1234', // Frontend running on localhost:1234
+  'http://localhost:1234', 
   'https://flixster-movies-7537569b59ac.herokuapp.com' // Your hosted frontend URL
 ];
 
