@@ -5,7 +5,8 @@ const fs = require('fs');
 const path = require('path');   
 const bodyParser = require('body-parser');  
 const app = express();  
-const cors = require('cors');
+const cors = require('cors'); 
+const { check, validationResult } = require('express-validator');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));   
 let auth = require('./auth')(app);  
@@ -35,8 +36,6 @@ const Director = mongoose.model('Director', directorSchema);
 
 
 
-const { check, validationResult } = require('express-validator');
-
 /*
 mongoose.connect('mongodb://localhost:27017/myFlix')
   .then(() => {
@@ -44,10 +43,37 @@ mongoose.connect('mongodb://localhost:27017/myFlix')
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error); 
-  });  */
-  
- 
+  });  
+  */
+
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+
+
+// Define the allowed origins
+const allowedOrigins = [
+  'http://localhost:1234', 
+  'https://flixster-movies-7537569b59ac.herokuapp.com',
+  'http://localhost:8080'
+];
+
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
+
+
+
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -71,28 +97,6 @@ app.use((err, req, res, next) => {
 
 
 
-// Define the allowed origins
-const allowedOrigins = [
-  'http://localhost:1234', 
-  'https://flixster-movies-7537569b59ac.herokuapp.com' // Your hosted frontend URL
-];
-
-// CORS configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
-// Use CORS middleware
-app.use(cors(corsOptions));
-
-
-
 
 app.get('/', (req, res) => {
   res.send('Welcome to myFlix web application.');
@@ -112,22 +116,6 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
 });
 
 
-
-
-// Protected route for fetching movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    const movies = await Movies.find();
-    res.status(200).json(movies);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-
-/*
-
 app.get('/movies', passport.authenticate('jwt', { session: false }),  async (req, res) => {
   await Movies.find()
     .then((movies) => {
@@ -138,7 +126,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }),  async (req
       res.status(500).send('Error: ' + error);
     });
 });
-*/
+
 
 
 
