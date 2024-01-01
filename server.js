@@ -6,7 +6,6 @@ const path = require('path');
 const bodyParser = require('body-parser');  
 const app = express();  
 const cors = require('cors'); 
-const { check, validationResult } = require('express-validator');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));   
 let auth = require('./auth')(app);  
@@ -33,7 +32,7 @@ const directorSchema = new Schema({
 
 
 const Director = mongoose.model('Director', directorSchema);
-
+const { check, validationResult } = require('express-validator');
 
 
 /*
@@ -52,7 +51,7 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 
 
 // Define the allowed origins
-const allowedOrigins = [
+/*const allowedOrigins = [
   'http://localhost:1234', 
   'https://flixster-movies-7537569b59ac.herokuapp.com',
   'http://localhost:8080'
@@ -71,7 +70,7 @@ const corsOptions = {
 
 // Use CORS middleware
 app.use(cors(corsOptions));
-
+*/
 
 
 
