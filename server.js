@@ -51,8 +51,7 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 
 
 // Define the allowed origins
-/*const allowedOrigins = [
-  'http://localhost:1234', 
+const allowedOrigins = [ 
   'https://flixster-movies-7537569b59ac.herokuapp.com',
   'http://localhost:8080'
 ];
@@ -70,7 +69,6 @@ const corsOptions = {
 
 // Use CORS middleware
 app.use(cors(corsOptions));
-*/
 
 
 
