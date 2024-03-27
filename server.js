@@ -112,6 +112,22 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
 });
 
 
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+
+
 
 app.get('/movies', passport.authenticate('jwt', {session: false}),  async (req, res) => {
   await Movies.find()
@@ -326,6 +342,7 @@ app.post('/users',
   });
 
 
+  /*
   app.put('/users/:Username', 
   [
     check('Username', 'Username is required').isLength({min: 5}),
@@ -361,6 +378,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+*/
 
 app.put('/users/:Username',
   [
