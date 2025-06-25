@@ -1,152 +1,147 @@
-# myFlix API
+# 🎬 Movie API
 
-## Overview
+A RESTful API built with **Node.js**, **Express.js**, and **MongoDB** that allows users to access information about movies, directors, and genres. Users can register, update their profiles, and manage their list of favorite movies.
 
-The myFlix API is a backend service for a movie application. It allows users to access information about movies, genres, and directors, as well as manage their user profiles and favorite movies. This API is built using Node.js, Express, and MongoDB.
+---
 
-## Features
+## 📌 Table of Contents
 
-- User registration and authentication
-- CRUD operations for user profiles
-- Retrieve information about movies, genres, and directors
-- Add and remove movies from a user's list of favorite movies
-- Password hashing for secure authentication
-- Data validation for request payloads
-- CORS enabled for cross-origin requests
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [API Endpoints](#api-endpoints)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Technologies
+---
+
+## 📖 Overview
+
+This API powers a full-stack movie application. It serves JSON data over HTTP and interacts with a MongoDB database. It supports:
+
+- User authentication & authorization
+- Full CRUD for user profiles
+- Retrieval of movie, director, and genre data
+- Secure password hashing and validation
+
+---
+
+## 🧰 Tech Stack
 
 - Node.js
-- Express
-- MongoDB
-- Mongoose
-- Passport.js (JWT for authentication)
-- bcrypt (for password hashing)
-- express-validator (for data validation)
-- CORS
+- Express.js
+- MongoDB (with Mongoose ODM)
+- JSON Web Tokens (JWT) for auth
+- bcrypt for password hashing
+- CORS middleware
+- Morgan for logging
+- Postman for testing
 
-## Setup
+---
 
-### Prerequisites
+## 🚀 Features
 
-- Node.js
-- MongoDB (local or Atlas)
-- Git
-- Heroku CLI (for deployment)
+- Public routes to fetch all movies, directors, and genres
+- Authenticated routes for:
+  - Creating/updating/deleting a user
+  - Adding/removing movies from favorites
+- Token-based user authentication using JWT
+- Secure password hashing with bcrypt
+- Structured route architecture
+- Modular controllers and middleware
 
-### Installation
+---
 
-1. Clone the repository:
+## 📡 API Endpoints
 
-   ```bash
-   git clone https://github.com/example/movie_api.git
-   cd movie_api
+> All endpoints return JSON.
 
-   ```
+### Public Routes
 
-2. Install dependencies:
-   npm install
+| Method | Endpoint           | Description                   |
+| ------ | ------------------ | ----------------------------- |
+| GET    | `/movies`          | Returns list of all movies    |
+| GET    | `/movies/:title`   | Returns movie by title        |
+| GET    | `/genres/:name`    | Returns genre info by name    |
+| GET    | `/directors/:name` | Returns director info by name |
 
-3. Set up environment variables:
-   Create a .env file in the root directory and add the following variables:
+### Authenticated Routes
 
-MONGODB_URI=your_mongodb_connection_string
-PORT=your_port_number (default: 8080)
+| Method | Endpoint                      | Description                 |
+| ------ | ----------------------------- | --------------------------- |
+| POST   | `/users/register`             | Register new user           |
+| POST   | `/login`                      | Login and return JWT        |
+| GET    | `/users/:username`            | Get user details            |
+| PUT    | `/users/:username`            | Update user profile         |
+| POST   | `/users/:username/movies/:id` | Add movie to favorites      |
+| DELETE | `/users/:username/movies/:id` | Remove movie from favorites |
+| DELETE | `/users/:username`            | Delete user account         |
 
-4. Run the application:
-   npm start
-   The server should now be running on the specified port.
+---
 
-API Endpoints
+## 📦 Getting Started
 
-Movies
-Get all movies
+# Clone the repo
 
-URL: /movies
-Method: GET
-Requires JWT authentication
-Get movie by title
+git clone https://github.com/darunbjork/movie_api.git
+cd movie_api
 
-URL: /movies/title/:Title
-Method: GET
-Requires JWT authentication
-Get movies by genre
+# Install dependencies
 
-URL: /movies/genre/:Genre
-Method: GET
-Requires JWT authentication
-Get movies by director
+npm install
 
-URL: /movies/director/:Director
-Method: GET
-Requires JWT authentication
-Users
-Get user profile
+# Start development server
 
-URL: /users/:Username
-Method: GET
-Requires JWT authentication
+npm run dev
+🔐 Environment Variables
+
+Create a .env file with the following keys:
+
+PORT=3000
+DB_URI=mongodb://localhost:27017/moviesdb
+JWT_SECRET=yourSuperSecretKey
+🧪 Testing
+
+Use Postman to test endpoints locally.
+
+Include the JWT in the Authorization header as Bearer TOKEN
+Example test cases:
 Register a new user
+Login to receive token
+Get all movies
+Add a movie to favorites
+🚀 Deployment
 
-URL: /users
-Method: POST
-Request body: { Username, Password, Email, Birthday }
-Update user profile
+You can deploy to:
 
-URL: /users/:Username
-Method: PUT
-Requires JWT authentication
-Request body: { Username, Password, Email, Birthday }
-Add a movie to user's favorites
-
-URL: /users/:Username/movies/:MovieID
-Method: POST
-Requires JWT authentication
-Remove a movie from user's favorites
-
-URL: /users/:Username/movies/:MovieID
-Method: DELETE
-Requires JWT authentication
-Delete user profile
-
-URL: /users/:Username
-Method: DELETE
-Requires JWT authentication
-
-Documentation
-
-The API documentation is generated using JSDoc. To view the documentation, open the out/index.html file in your browser.
-
-Generating Documentation
-To generate the documentation, run the following command:
-jsdoc -c jsdoc.json
-
-Deployment
-
+Render
 Heroku
+Railway
+Example deploy command for Heroku:
 
-1. Log in to Heroku:
-   heroku login
+heroku create movie-api-darun
+heroku config:set JWT_SECRET=yourSuperSecretKey
+git push heroku main
+🤝 Contributing
 
-2. Create a new Heroku app:
-   heroku create
+Contributions are welcome!
 
-3. Set up environment variables on Heroku:
-   heroku config:set MONGODB_URI=your_mongodb_connection_string
+Fork the repo
+Create a feature branch: git checkout -b feature/your-feature
+Commit changes: git commit -m 'feat: your feature'
+Push to branch: git push origin feature/your-feature
+Open a pull request
+📄 License
 
-4. Deploy the app to Heroku:
-   git push heroku main or master
+MIT License
 
-5. Open the app in your browser:
-   heroku open
+📬 Contact
 
-License
-
-This project is licensed under the MIT License.
-
-Acknowledgments
-
-Node.js
-Express
-MongoDB
-Heroku
+Author: Darun Bjork
+GitHub: @darunbjork
+LinkedIn: Darun on LinkedIn
